@@ -10,11 +10,6 @@ public class GameManager : Singleton<GameManager>
         if (isRunning || !canStart) return;
 
         canStart = false;
-
-        #if ElephantSDK
-            Elephant.LevelStarted(SaveLoadManager.GetLevel());
-        #endif
-
         UIManager.I.OnGameStarted();
         TouchHandler.I.OnGameStarted();
         PlayerController.I.OnGameStarted();

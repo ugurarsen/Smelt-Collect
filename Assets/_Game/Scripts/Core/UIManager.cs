@@ -29,17 +29,19 @@ public class UIManager : Singleton<UIManager>
     public Panels GetPanel() => pnl;
     public Buttons GetButtons() => btn;
     
+    public WhellController whellController;
+    
     private void Start()
     {
         UpdateTexts();
         if (startButtonMethod == StartButton.StartButton)
         {
             btn.play.gameObject.SetActive(true);
-            img.taptoStart.gameObject.SetActive(false);
+            txt.taptoStart.gameObject.SetActive(false);
             
         }else if (startButtonMethod == StartButton.TapToStartText)
         {
-            img.taptoStart.gameObject.SetActive(true);
+            txt.taptoStart.gameObject.SetActive(true);
             btn.play.gameObject.SetActive(false);
         }
     }
@@ -77,6 +79,7 @@ public class UIManager : Singleton<UIManager>
         {
             btn.nextLevel.gameObject.SetActive(true);
             FadeInAndOutPanels(pnl.success);
+            whellController.ShowWhell();
         }
         
     }
@@ -179,7 +182,7 @@ public class UIManager : Singleton<UIManager>
 
     public void UpdateTexts()
     {
-        txt.level.text = "LEVEL " + (SaveLoadManager.GetLevel() + 1).ToString();
+        txt.level.text = "Lv. " + (SaveLoadManager.GetLevel() + 1).ToString();
         UpdateCoinText();
     }
 
@@ -201,7 +204,6 @@ public class UIManager : Singleton<UIManager>
     [System.Serializable]
     public class Images
     {
-        public Image taptoStart;
         public Image[] joystickHighlights, vibrations;
     }
 
@@ -215,6 +217,6 @@ public class UIManager : Singleton<UIManager>
     [System.Serializable]
     public class Texts
     {
-        public TextMeshProUGUI level,coin;
+        public TextMeshProUGUI level, coin, taptoStart;
     }
 }

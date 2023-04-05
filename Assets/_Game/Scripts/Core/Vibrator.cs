@@ -15,11 +15,13 @@ public class Vibrator : MonoBehaviour
         }
         else Destroy(gameObject);
     }
-
+    
     void Init()
     {
         I = this;
-        DontDestroyOnLoad(gameObject);
+        GameObject root = new GameObject("Root");
+        transform.parent = root.transform;
+        DontDestroyOnLoad(root);
         MMVibrationManager.SetHapticsActive(SaveLoadManager.HasVibration());
     }
 

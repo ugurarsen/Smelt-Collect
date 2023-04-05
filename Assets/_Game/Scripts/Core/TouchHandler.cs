@@ -1,9 +1,6 @@
 ﻿using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
-using UA.Toolkit.Rays;
-using UA.Toolkit.Vector;
-using UA.Toolkit.Transforms;
 
 public class TouchHandler : Singleton<TouchHandler>
 {
@@ -16,6 +13,7 @@ public class TouchHandler : Singleton<TouchHandler>
     public bool useJoystick;
     #endregion
 
+    
     public enum TouchTypes
     {
         NONE = -1,
@@ -31,13 +29,13 @@ public class TouchHandler : Singleton<TouchHandler>
     //the level or at different types of obstacles
 
     private delegate void OnDownAction();
-    private OnDownAction OnDown = null;
+    private OnDownAction OnInputStart = null;
     private delegate void OnUpAction();
-    private OnUpAction OnUp = null;
+    private OnUpAction OnInputEnd = null;
     private delegate void OnDragAction();
-    private OnDragAction OnDrag = null;
+    private OnDragAction OnInputHold = null;
 
-    private bool isDragging = false;
+    private bool isTouching = false;
     private bool canPlay = false;
 
     private Vector3 fp, lp, dif;
@@ -47,68 +45,57 @@ public class TouchHandler : Singleton<TouchHandler>
 
     private void Update()
     {
-        if (IsActive())
-            HandleTouch();
+        if (IsActive()) HandleInput();
     }
 
     public void OnGameStarted()
     {
         Enable(true);
     }
-
-    void HandleTouch()
+    
+    
+    void HandleInput()
     {
-        if (!isDragging)
+        if (!isTouching)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                OnDown?.Invoke();
-                isDragging = true;
+                OnInputStart?.Invoke();
+                isTouching = true;
             }
         }
         else
         {
-            OnDrag?.Invoke();
-
+            OnInputHold?.Invoke();
             if (Input.GetMouseButtonUp(0))
             {
-                OnUp?.Invoke();
-                isDragging = false;
+                OnInputEnd?.Invoke();
+                isTouching = false;
             }
         }
     }
 
     public void Initialize(TouchTypes tt = TouchTypes.Core, bool isStart = false)
     {
-        isDragging = false;
+        OnInputStart ??= CoreDown;
+        OnInputEnd ??= CoreUp;
+        OnInputHold ??= CoreDrag;
+        isTouching = false;
         switch(tt)
         {
             case TouchTypes.NONE:
-                OnDown = null;
-                OnUp = null;
-                OnDrag = null;
                 Enable(false);
-                break;
-            case TouchTypes.Core:
-                OnDown = CoreDown;
-                OnUp = CoreUp;
-                OnDrag = CoreDrag;
                 break;
             case TouchTypes.Joystick:
                 outerSize = (img_outerCircle.rectTransform.rect.width / 2f) - (img_innerCircle.rectTransform.rect.width / 2f);
-                OnDown = JoystickDown;
-                OnUp = JoystickUp;
-                OnDrag = JoystickDrag;
+                OnInputStart = JoystickDown;
+                OnInputEnd = JoystickUp;
+                OnInputHold = JoystickDrag;
                 break;
             case TouchTypes.SecondaryMechanic:
-                OnDown = OnDownSecondary;
-                OnUp = OnUpSecondary;
-                OnDrag = OnDragSecondary;
-                break;
-            default:
-                OnDown = CoreDown;
-                OnUp = CoreUp;
-                OnDrag = CoreDrag;
+                OnInputStart = OnDownSecondary;
+                OnInputEnd = OnUpSecondary;
+                OnInputHold = OnDragSecondary;
                 break;
         }
 
@@ -121,13 +108,23 @@ public class TouchHandler : Singleton<TouchHandler>
 
     void CoreDown()
     {
+        fp = Input.mousePosition;
     }
     void CoreUp()
     {
+        Debug.Log("CoreUp");
     }
-
     void CoreDrag()
     {
+        if (PlayerController.I.isRunning)
+        {
+            lp = Input.mousePosition;
+            dif = lp - fp;
+            if (PlayerController.I.isRunning)
+            {
+                PlayerController.I.MoveX(dif.x);
+            }
+        }
     }
 
 

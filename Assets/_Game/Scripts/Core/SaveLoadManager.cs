@@ -15,7 +15,11 @@ public class SaveLoadManager : MonoBehaviour
 
     const string KEY_COIN = "coins";
 
-    public static void AddCoin(int add) => PlayerPrefs.SetInt(KEY_COIN, GetCoin() + add);
+    public static void AddCoin(int add)
+    {
+        PlayerPrefs.SetInt(KEY_COIN, GetCoin() + add);
+        UIManager.I.UpdateCoinText();
+    } 
     public static int GetCoin() => PlayerPrefs.GetInt(KEY_COIN, 0);
 
     #endregion
