@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bde5b51eef6a4560b2a2442b047a9a7, type: 3}
+  m_Name: SwAccountData
+  m_EditorClassIdentifier: 
+  titlesList:
+  - games: []
+    id: 
+    name: --- select ---
+  - games:
+    - adMobId: 
+      bundleId: com.RaptureGames.EmojiGuessRush
+      facebookAppId: 788069916315077
+      gameAnalyticsKey: 4ebace95f129c9b34ebccdf0b0040d12
+      gameAnalyticsSecret: cb31e0c84bba2f9e4480ac09b4c1b594b765deb7
+      id: 22531e64-af21-420d-8bc0-cf957e89d99a
+      isAppKey: 
+      os: android
+      platform: google_play
+      storeId: com.RaptureGames.EmojiGuessRush
+    id: e4671f1a-9155-457a-bd5e-3d9577227546
+    name: Emoji Guess Rush
+  - games:
+    - adMobId: 
+      bundleId: com.RaptureGames.SmeltCollect
+      facebookAppId: 755888842721687
+      gameAnalyticsKey: f5048e4723860100b33870768e51b488
+      gameAnalyticsSecret: 889edcd8131dd931eab1eeec5ce2c75b87f11ab6
+      id: f49e4c9b-f31d-47c5-b763-a246e4e5451b
+      isAppKey: 
+      os: android
+      platform: google_play
+      storeId: com.RaptureGames.SmeltCollect
+    id: 2ee42f6b-ec2d-4f6b-8063-dc0cd86f86da
+    name: Smelt & Collect
+  integrationGuideUrl: 

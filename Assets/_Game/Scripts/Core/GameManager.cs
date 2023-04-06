@@ -1,9 +1,14 @@
-﻿#if ElephantSDK
-using ElephantSDK;
-#endif
+﻿using SupersonicWisdomSDK;
 public class GameManager : Singleton<GameManager>
 {
     public static bool canStart = false, isRunning = false;
+
+    public override void Awake()
+    {
+        base.Awake();
+        SupersonicWisdom.Api.Initialize();
+    }
+
 
     public static void OnStartGame()
     {
@@ -14,6 +19,7 @@ public class GameManager : Singleton<GameManager>
         TouchHandler.I.OnGameStarted();
         PlayerController.I.OnGameStarted();
         isRunning = true;
+        SupersonicWisdom.Api.NotifyLevelStarted(SaveLoadManager.GetLevel()+1, null);
     }
 
     public static void OnLevelCompleted()
@@ -21,6 +27,7 @@ public class GameManager : Singleton<GameManager>
         isRunning = false;
         canStart = false;
         UIManager.I.OnSuccess();
+        SupersonicWisdom.Api.NotifyLevelCompleted(SaveLoadManager.GetLevel()+1, null);
     }
 
     public static void OnLevelFailed()
@@ -32,12 +39,6 @@ public class GameManager : Singleton<GameManager>
 
     public static void ReloadScene(bool isSuccess)
     {
-        
-#if ElephantSDK
-        if (isSuccess) Elephant.LevelStarted(SaveLoadManager.GetLevel());
-        else Elephant.LevelFailed(SaveLoadManager.GetLevel());
-#endif
-
         if (isSuccess)
         {
             SaveLoadManager.IncreaseLevel();

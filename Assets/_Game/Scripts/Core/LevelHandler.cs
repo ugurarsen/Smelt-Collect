@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SupersonicWisdomSDK;
+using UnityEngine;
 
 public class LevelHandler : Singleton<LevelHandler>
 {
@@ -9,14 +10,29 @@ public class LevelHandler : Singleton<LevelHandler>
     Level crntLevel;
 
     public Level GetLevel() => crntLevel;
+    
 
     private void Start()
     {
         CreateLevel();
+        if (SupersonicWisdom.Api.IsReady())
+        {
+            StartGame();
+        }
+        else
+        {
+            UIManager.I.LoadingUI();
+            LoadingPanel.I.StartLoading();
+        }
 
-        TouchHandler.I.Initialize(TouchHandler.I.useJoystick ? TouchHandler.TouchTypes.Joystick : TouchHandler.TouchTypes.Core, isStart: true);
 
     }
+    
+    public void StartGame()
+    {
+        TouchHandler.I.Initialize(TouchHandler.I.useJoystick ? TouchHandler.TouchTypes.Joystick : TouchHandler.TouchTypes.Core, isStart: true);
+    }
+    
 
     public void CreateLevel()
     {

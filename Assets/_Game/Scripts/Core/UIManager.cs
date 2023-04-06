@@ -1,10 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using DG.Tweening;
-using UA.Toolkit;
 using UnityEngine.UI;
-using UA.Toolkit.Colors;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -56,6 +53,11 @@ public class UIManager : Singleton<UIManager>
     public void StartGame()
     {
         GameManager.OnStartGame();
+    }
+
+    public void LoadingUI()
+    {
+        FadeInAndOutPanels(pnl.loading);
     }
 
     public void OnGameStarted()
@@ -197,7 +199,7 @@ public class UIManager : Singleton<UIManager>
     [System.Serializable]
     public class Panels
     {
-        public CanvasGroup mainMenu, gameIn, success, fail;
+        public CanvasGroup mainMenu, gameIn, success, fail, loading;
     }
     
 
