@@ -6,7 +6,6 @@ using SupersonicWisdomSDK;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class LoadingPanel : Singleton<LoadingPanel>
 {
     public Image loadingBar;
