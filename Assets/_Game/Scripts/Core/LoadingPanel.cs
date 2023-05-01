@@ -2,7 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+
+#if SupersonicWisdomSDK
 using SupersonicWisdomSDK;
+#endif
+
+#if TinySauce
+using TinySauce;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,14 +33,17 @@ public class LoadingPanel : Singleton<LoadingPanel>
         while (isActive)
         {
             yield return new WaitForSeconds(.1f);
-            if (SupersonicWisdom.Api.IsReady())
+            isActive = false;
+#if SupersonicWisdomSDK
+        if (SupersonicWisdom.Api.IsReady())
             {
                 isActive = false;
                 loadingBar.DOFillAmount(1, .5f).OnComplete(() =>
                 {
                     LevelHandler.I.StartGame();
                 });
-            }
+            }    
+#endif
         }
     }
     private void Update()

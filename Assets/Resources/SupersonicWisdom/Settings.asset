@@ -57,5 +57,5 @@ MonoBehaviour:
   validateBeforeBuild: 1
   accountEmail: ugurarsen@gmail.com
   selectedGameIndex: 2
-  isTitleSelectedAutomatically: 0
+  isTitleSelectedAutomatically: 1
   wasLoggedIn: 1

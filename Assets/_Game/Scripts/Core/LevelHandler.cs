@@ -1,4 +1,7 @@
-﻿using SupersonicWisdomSDK;
+﻿#if SupersonicWisdomSDK
+using SupersonicWisdomSDK;
+#endif
+
 using UnityEngine;
 
 public class LevelHandler : Singleton<LevelHandler>
@@ -15,7 +18,8 @@ public class LevelHandler : Singleton<LevelHandler>
     private void Start()
     {
         CreateLevel();
-        if (SupersonicWisdom.Api.IsReady())
+#if SupersonicWisdomSDK
+if (SupersonicWisdom.Api.IsReady())
         {
             StartGame();
         }
@@ -24,8 +28,9 @@ public class LevelHandler : Singleton<LevelHandler>
             UIManager.I.LoadingUI();
             LoadingPanel.I.StartLoading();
         }
-
-
+#else
+        StartGame();
+#endif
     }
     
     public void StartGame()

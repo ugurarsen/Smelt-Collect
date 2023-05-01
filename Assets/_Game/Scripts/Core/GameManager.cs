@@ -1,4 +1,7 @@
-﻿using SupersonicWisdomSDK;
+﻿#if SupersonicWisdomSDK
+using SupersonicWisdomSDK;
+
+#endif
 public class GameManager : Singleton<GameManager>
 {
     public static bool canStart = false, isRunning = false;
@@ -6,7 +9,10 @@ public class GameManager : Singleton<GameManager>
     public override void Awake()
     {
         base.Awake();
-        SupersonicWisdom.Api.Initialize();
+#if SupersonicWisdomSDK
+SupersonicWisdom.Api.Initialize();
+#endif
+        
     }
 
 
@@ -19,7 +25,10 @@ public class GameManager : Singleton<GameManager>
         TouchHandler.I.OnGameStarted();
         PlayerController.I.OnGameStarted();
         isRunning = true;
+#if SupersonicWisdomSDK
         SupersonicWisdom.Api.NotifyLevelStarted(SaveLoadManager.GetLevel()+1, null);
+#endif
+        TinySauce.OnGameStarted(SaveLoadManager.GetLevel());
     }
 
     public static void OnLevelCompleted()
@@ -27,7 +36,10 @@ public class GameManager : Singleton<GameManager>
         isRunning = false;
         canStart = false;
         UIManager.I.OnSuccess();
+#if SupersonicWisdomSDK
         SupersonicWisdom.Api.NotifyLevelCompleted(SaveLoadManager.GetLevel()+1, null);
+#endif
+        TinySauce.OnGameFinished(true, SaveLoadManager.GetCoin());
     }
 
     public static void OnLevelFailed()
